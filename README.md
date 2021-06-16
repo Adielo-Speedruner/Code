@@ -1,47 +1,4 @@
-import discord
-from discord.ext import commands
-from discord.ext.commands import has_permissions
-import time
-import datetime
-import asyncio
 
-intents = discord.Intents.default()
-intents.members = True
-intents.messages = True
-
-client = commands.Bot(command_prefix= "!", intents=intents)
-client.remove_command("help")
-
-@client.event
-async def on_ready():
-    print("OnLine")
-    await client.change_presence(activity=discord.Game(name="!rules | Subscribe: https://www.youtube.com/channel/UCWhz-yF9-oXdlEZIInrCqxA"))
-
-@client.command()
-async def rules(ctx):
-    embed=discord.Embed(title="SERVER RULES", description="Ignorance of the regulations does not exempt you from complying with the rules on the server.", color=0x00ff00,timestamp= datetime.datetime.now() -datetime.timedelta(hours=2))
-    embed.set_author(name="Adielo", url="https://www.youtube.com/channel/UCWhz-yF9-oXdlEZIInrCqxA")
-    embed.add_field(name="Warn for:", value="Spam, Flood, CapsLock and Admin Spoofing,", inline=False)
-    embed.add_field(name="Mute for:", value="NSFW, Invitations to your Discord server, Tocix and Ping", inline=False)
-    embed.add_field(name="Ban for:", value="Big spam, Big flood, Ping @everyone / @here / @<administration role>", inline=False)
-    embed.add_field(name=" More info:", value="↓", inline=False)
-    embed.add_field(name="1 Warn: ", value="Nothing", inline=True)
-    embed.add_field(name="2 Warns:", value="Mute 30m", inline=True)
-    embed.add_field(name="3 Warns:", value="Mute 3h", inline=True)
-    embed.add_field(name="4 Warns:", value="Mute 24h", inline=True)
-    embed.add_field(name="5 Warns:", value="Ban 7d", inline=True)
-    embed.add_field(name="6 Warns:", value="TemBan", inline=True)
-    embed.set_footer(text="The command will be deleted in 30 seconds.")
-    await ctx.channel.send(embed=embed, delete_after = 30)
-
-@client.command()
-@has_permissions(ban_members=True)
-async def ban(ctx, member : discord.Member, reason="For no reason"):
-    await member.ban(reason=reason)
-    embed = discord.Embed(title="Banned", description=f"Banned: {member.mention}, Reason: {reason}", color=0xff0000,timestamp= datetime.datetime.now() -datetime.timedelta(hours=2))
-    embed.set_author(name=ctx.author.name,icon_url= ctx.author.avatar_url)
-    embed.set_footer(text="Banned successively")
-    await ctx.channel.send (embed=embed)
 
 
 
@@ -119,15 +76,3 @@ async def on_member_join(member):
     embed = discord.Embed(title="Hello in World of AD-s", description=f"Welcome ||{member.mention}|| 🥳", color=0x00ff00,timestamp= datetime.datetime.now() -datetime.timedelta(hours=2))
     await channel.send(embed=embed)
 
-
-@client.command()
-@has_permissions(manage_messages=True)
-async def clear(ctx, value=5):
-        await ctx.channel.purge(limit=value + 1)
-        embed = discord.Embed(title="Deleted", description=f"Deleted **{value}** messenge/s", color=0x00ffff,timestamp= datetime.datetime.now() -datetime.timedelta(hours=2))
-        embed.set_author(name=ctx.author.name,icon_url= ctx.author.avatar_url)
-        embed.set_footer(text="The command will be deleted in 20 seconds.")
-        message = await ctx.send(embed=embed, delete_after=20)
-
-
-client.run("ODUyOTQxNjE3NDUwMTg4ODEw.YMOJyA.3qUtph8ScpjPNChocXjzO2wsJlU")
